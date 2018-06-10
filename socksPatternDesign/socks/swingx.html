@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id='canvas' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<script>
+			var changeturn3 = new Array();
+			var changeturn2 = new Array();
+			var canvas = document.querySelector('canvas');
+			var j = 0;
+
+			var radius = new Array();
+
+			for(j = 0; j < 100; j++) {
+				var swingx = 0;
+				var swingy = 0;
+				var context = canvas.getContext('2d');
+				context.strokeStyle = 'rgba(255,0,0,1)';
+				changeturn3[j] = true;
+				changeturn2[j] = true;
+				swing(context, swingx,swingy, j);
+			}
+
+			function swing(context, swingx,swingy, j) {
+				//context.clearRect((j % 20) * 60, Math.floor(j / 20) * 60, (j % 20 + 1) * 60, Math.floor(j / 20 + 1) * 60);
+/*				if(changeturn[j]) {
+					swingx--;
+					context.clearRect((j % 20) * 60+ (swingx++), Math.floor(j / 20) * 60+ (swingy++),(j % 20 + 1) * 60+ (swingx++), Math.floor(j / 20 + 1) * 60);
+				} else {
+					swingx++;
+					context.clearRect((j % 20) * 60+ (swingx--), Math.floor(j / 20) * 60,(j % 20 + 1) * 60+ (swingx--), Math.floor(j / 20 + 1) * 60);
+				}*/
+				
+				if(changeturn3[j]&changeturn2[j]) {
+					swingx--;
+					swingy--;
+					context.clearRect((j % 20) * 60+ (swingx++), Math.floor(j / 20) * 60+ (swingy++),(j % 20 + 1) * 60+ (swingx++), Math.floor(j / 20 + 1) * 60+ (swingy++));
+				} 
+				else if(changeturn3[j]&(!changeturn2[j])) {
+					swingx--;
+					swingy++;
+					context.clearRect((j % 20) * 60+ (swingx++), Math.floor(j / 20) * 60+ (swingy--),(j % 20 + 1) * 60+ (swingx++), Math.floor(j / 20 + 1) * 60+ (swingy--));
+				}
+				else if((!changeturn3[j])&(changeturn2[j])) {
+					swingx++;
+					swingy--;
+					context.clearRect((j % 20) * 60+ (swingx--), Math.floor(j / 20) * 60+ (swingy++),(j % 20 + 1) * 60+ (swingx--), Math.floor(j / 20 + 1) * 60+ (swingy++));
+				}
+				else if((!changeturn3[j])&(!changeturn2[j])) {
+					swingx++;
+					swingy++;
+					context.clearRect((j % 20) * 60+ (swingx--), Math.floor(j / 20) * 60+ (swingy--),(j % 20 + 1) * 60+ (swingx--), Math.floor(j / 20 + 1) * 60+ (swingy--));
+				}
+				context.beginPath();
+				if(changeturn3[j]&changeturn2[j]) {
+					context.arc(30+(j % 20) * 60 + (swingx++), 30 + Math.floor(j / 20) * 60+ (swingy++), 20, 0, 2 * Math.PI);
+					if(swingy >= 30) {
+						changeturn2[j] = false;
+					}
+				} 
+				else if(changeturn3[j]&(!changeturn2[j])) {
+					context.arc(30+(j % 20) * 60 + (swingx++), 30 + Math.floor(j / 20) * 60+ (swingy--), 20, 0, 2 * Math.PI);
+					if(swingx >= 60) {
+						changeturn3[j] = false;
+					}
+					if(swingy <= 0) {
+						changeturn2[j] = true;
+					}
+				}
+				else if((!changeturn3[j])&(changeturn2[j])) {
+					context.arc(30+(j % 20) * 60 + (swingx--), 30 + Math.floor(j / 20) * 60+ (swingy++), 20, 0, 2 * Math.PI);
+					if(swingy >= 30) {
+						changeturn2[j] = false;
+					}
+				}
+				else if((!changeturn3[j])&(!changeturn2[j])) {
+					context.arc(30+(j % 20) * 60 + (swingx--), 30 + Math.floor(j / 20) * 60+ (swingy--), 20, 0, 2 * Math.PI);
+					if(swingy <= 0) {
+						changeturn2[j] = true;
+					}
+					if(swingx <= 0) {
+						changeturn3[j] = true;
+					}
+				}
+				context.closePath();
+				context.stroke();
+
+				window.requestAnimationFrame(function() {
+					swing(context, swingx++,swingy++, j)
+				});
+			}
+		</script>
+
+	</body>
+
+</html>

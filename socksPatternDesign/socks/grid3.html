@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.nav {
+				width: 1200px;
+				height: 38px;
+				background-color: black;
+				font-family: "微软雅黑";
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+			}
+			
+			.nav ul {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.nav ul li {
+				display: inline-block;
+				line-height: 38px;
+				padding: 0px 15px;
+				width: 70px;
+				position: relative;
+			}
+			
+			.nav ul li a {
+				color: white;
+				text-decoration: none;
+			}
+			
+			#images img{
+				background-color: rgba(220,22,50,1);				
+			}
+		</style>
+	</head>
+
+	<body>
+		<p style="text-align: center; font-size: 40px;">Socks Pattern Design</p>
+		<div class="nav">
+			<ul style="margin-left: auto;margin-right: auto;">
+				<center>
+					<li>
+						<a href="index.html">Pattern1</a>
+					</li>
+					<li>
+						<a href="pattern2.html">Pattern2</a>
+					</li>
+					<li>
+						<a href="pattern3.html">Pattern3</a>
+					</li>
+					<li>
+						<a href="pattern4.html">Pattern4</a>
+					</li>
+					<li>
+						<a href="grid3.html">Pattern5</a>
+					</li>
+				</center>
+			</ul>
+		</div>
+		<canvas id='canvas5' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block; background-color: rgba(220,22,50,1);"></canvas>
+		<center><button id="saveImageBtn" style="margin-top:20px;">Save Image</button>
+			<button id="downloadImageBtn">Download Image</button>
+			<button id="addImageBtn">Preview Image</button></center>
+		<ol id="images" style="margin-left: 100px;">
+		</ol>
+		<script>
+			var canvas = document.getElementById("canvas5");
+			var context = canvas.getContext('2d');
+			var m = 0;
+			var changeturn = new Array();
+			var changeturn2 = true;
+			
+			//drawGrid(context, 'rgba(255,255,255,1)', 60, 60);
+			for(m = 0; m < 105; m++) {
+				//var movex = 0;
+				//var context = canvas.getContext('2d');
+				//				context.strokeStyle = 'rgba(255,0,0,1)';
+				changeturn[m] = true;
+				//drawGrid(context, '#09f', 60, 60, movex, m);
+			}
+
+			var movey = 0;
+			var movex = 0;
+			var movex2 = 0;
+			var movey2 = 0;
+			var movex3 = 0;
+			var movex4 = 0;
+			var count = 0;
+			var pianyi = 20;
+			var pianyi2 = 10;
+			var color1 = 'rgba(255,255,255,1)';
+			var color2 = 'rgba(0,0,0,0.8)';
+			//while(count++ < 1000) {
+			//drawGrid3(context, 120, 120);
+			//context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+			for(var c=0;c<100;c++) {
+				//var context = canvas.getContext('2d');
+				//var context = canvas.getContext('2d');
+				drawGrid(context, color2, 60, 60, movey, movex, movex2);
+				//drawGrid3(context, 120, 120);
+			}
+			for(var d=0;d<100;d++) {
+				//var context = canvas.getContext('2d');
+				//var context = canvas.getContext('2d');
+				drawGrid2(context, color1, 60, 60, movey2, movex3, movex4, pianyi, pianyi2);
+				//drawGrid3(context, 120, 120);
+			}
+			//var context2 = canvas.getContext('2d');
+			//drawGrid3(context2, 120, 120);
+			
+
+
+			function drawGrid(context, color, stepx, stepy, moveyori, movexori, movexori2) {
+				//canvas = document.getElementById("canvas5");
+
+				context.strokeStyle = color;
+				//context.strokeStyle = 'rgba(255,255,255,1)';
+				context.lineWidth = 2;
+				context.setLineDash([10, 0]); 
+				context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+				context.beginPath();
+				for(var m = 0; m < 105; m++) {
+					movey = moveyori;
+					movex = movexori;
+					movex2 = movexori2;
+					//if(changeturn[m]) {
+					if(changeturn2) {
+						//movey--;
+						if(m % 2 == 0) {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movey++));
+								context.lineTo((m % 21 + 1) * stepx + (movex++), Math.floor(m / 21 + 1) * stepx + (movex2++));
+							} else {
+								context.moveTo((m % 21) * stepx+ (movex++), Math.floor(m / 21) * stepx+ (movex2++));
+								context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx + (movey++));
+							}
+
+						} else {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo((m % 21) * stepx + (movex++), Math.floor(m / 21 + 1) * stepx+ (movex2++));
+								context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx + (movey++));
+							} else {
+								context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx+ (movey++));
+								context.lineTo((m % 21 + 1) * stepx + (movex++), Math.floor(m / 21) * stepx + (movex2++));
+							}
+						}
+						/*context.moveTo((m % 21 - 1) * stepx, Math.floor(m / 21 + 1) * stepx);
+						context.lineTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movex++)/2);
+						context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx);*/
+						if(movey >= 25) {
+							changeturn2 = false;
+						}
+					} else {
+						//movey++;
+						if(m % 2 == 0) {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movey--));
+								context.lineTo((m % 21 + 1) * stepx + (movex--), Math.floor(m / 21 + 1) * stepx + (movex2--));
+							} else {
+								context.moveTo((m % 21) * stepx+ (movex--), Math.floor(m / 21) * stepx+ (movex2--));
+								context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx + (movey--));
+							}
+
+						} else {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo((m % 21) * stepx + (movex--), Math.floor(m / 21 + 1) * stepx+ (movex2--));
+								context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx + (movey--));
+							} else {
+								context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx+ (movey--));
+								context.lineTo((m % 21 + 1) * stepx + (movex--), Math.floor(m / 21) * stepx + (movex2--));
+							}
+						}
+						if(movey <= 0) {
+							changeturn2 = true;
+						}
+					}
+				}
+				
+				if(changeturn2)
+				{
+					moveyori+=4;
+					movexori+=3;
+					movexori2+=3;
+				}
+				else{
+					moveyori-=4;
+					movexori-=3;
+					movexori2-=3;
+				}
+				{
+				context.stroke();
+  				context.strokeStyle = 'rgba(255,255,255,1)';
+                context.lineWidth = 3;
+                context.setLineDash([3, 15]); 
+				context.beginPath();
+                for(var i = 120 + 0.5; i < (context.canvas.width+context.canvas.height); i += 120) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					context.lineTo(0, i);
+					context.stroke();
+				}
+
+				for(var i = 120 + 0.5; i < (context.canvas.width+context.canvas.height); i += 120) {
+					context.beginPath();
+					context.moveTo(i-context.canvas.height, 0);
+					context.lineTo(i, context.canvas.height); 
+					context.stroke();
+				}
+
+                context.stroke();
+               }
+				//context.restore();
+/*				if(changeturn) {*/
+					window.requestAnimationFrame(function() {						
+						drawGrid(context, color, stepx, stepy, moveyori, movexori, movexori2)
+					});
+/*				} else {
+					window.requestAnimationFrame(function() {
+
+						drawGrid(context, color, stepx, stepy, moveyori, movexori)
+					});
+				}*/
+
+			}
+			function drawGrid2(context, color, stepx, stepy, moveyori, movexori, movexori2, p,p2) {
+				//canvas = document.getElementById("canvas5");
+				context.setLineDash([10, 0]); 
+				context.strokeStyle = color;
+				//context.strokeStyle = 'rgba(255,255,255,1)';
+
+				//context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+
+				context.beginPath();
+				for(var m = 0; m < 105; m++) {
+					movey = moveyori;
+					movex = movexori;
+					movex2 = movexori2;
+					//if(changeturn[m]) {
+					if(changeturn2) {
+						//movey--;
+						if(m % 2 == 0) {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo(p+(m % 21) * stepx,p2+ Math.floor(m / 21) * stepx - (movey++));
+								context.lineTo(p+(m % 21 + 1) * stepx - (movex++), p2+Math.floor(m / 21 + 1) * stepx - (movex2++));
+							} else {
+								context.moveTo(p+(m % 21) * stepx- (movex++), p2+Math.floor(m / 21) * stepx- (movex2++));
+								context.lineTo(p+(m % 21 + 1) * stepx,p2+ Math.floor(m / 21 + 1) * stepx - (movey++));
+							}
+
+						} else {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo(p+(m % 21) * stepx - (movex++),p2+ Math.floor(m / 21 + 1) * stepx- (movex2++));
+								context.lineTo(p+(m % 21 + 1) * stepx,p2+ Math.floor(m / 21) * stepx - (movey++));
+							} else {
+								context.moveTo(p+(m % 21) * stepx,p2+ Math.floor(m / 21 + 1) * stepx- (movey++));
+								context.lineTo(p+(m % 21 + 1) * stepx -(movex++),p2+ Math.floor(m / 21) * stepx - (movex2++));
+							}
+						}
+						/*context.moveTo((m % 21 - 1) * stepx, Math.floor(m / 21 + 1) * stepx);
+						context.lineTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movex++)/2);
+						context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx);*/
+						if(movey >= 25) {
+							changeturn2 = false;
+						}
+					} else {
+						//movey++;
+						if(m % 2 == 0) {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo(p+(m % 21) * stepx, p2+Math.floor(m / 21) * stepx - (movey--));
+								context.lineTo(p+(m % 21 + 1) * stepx - (movex--),p2+ Math.floor(m / 21 + 1) * stepx - (movex2--));
+							} else {
+								context.moveTo(p+(m % 21) * stepx- (movex--),p2+ Math.floor(m / 21) * stepx- (movex2--));
+								context.lineTo(p+(m % 21 + 1) * stepx, p2+Math.floor(m / 21 + 1) * stepx - (movey--));
+							}
+
+						} else {
+							if((Math.floor(m / 21)) % 2 == 0) {
+								context.moveTo(p+(m % 21) * stepx - (movex--),p2+ Math.floor(m / 21 + 1) * stepx- (movex2--));
+								context.lineTo(p+(m % 21 + 1) * stepx,p2+ Math.floor(m / 21) * stepx - (movey--));
+							} else {
+								context.moveTo(p+(m % 21) * stepx,p2+ Math.floor(m / 21 + 1) * stepx- (movey--));
+								context.lineTo(p+(m % 21 + 1) * stepx - (movex--),p2+ Math.floor(m / 21) * stepx - (movex2--));
+							}
+						}
+						if(movey <= 0) {
+							changeturn2 = true;
+						}
+					}
+				}
+				
+				if(changeturn2)
+				{
+					moveyori+=4;
+					movexori+=3;
+					movexori2+=3;
+				}
+				else{
+					moveyori-=4;
+					movexori-=3;
+					movexori2-=3;
+				}
+				context.stroke();
+
+				//context.restore();
+/*				if(changeturn) {*/
+					window.requestAnimationFrame(function() {						
+						drawGrid2(context, color, stepx, stepy, moveyori, movexori, movexori2, p,p2)
+					});
+/*				} else {
+					window.requestAnimationFrame(function() {
+
+						drawGrid(context, color, stepx, stepy, moveyori, movexori)
+					});
+				}*/
+
+			}
+			
+			function drawGrid3(context, stepx, stepy) {
+				context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                context.strokeStyle = 'rgba(255,255,255,1)';
+                context.lineWidth = 3;
+                context.setLineDash([3, 15]); 
+				context.beginPath();
+                for(var i = stepx + 0.5; i < (context.canvas.width+context.canvas.height); i += stepx) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					context.lineTo(0, i);
+					context.stroke();
+				}
+
+				for(var i = stepy + 0.5; i < (context.canvas.width+context.canvas.height); i += stepy) {
+					context.beginPath();
+					context.moveTo(i-context.canvas.height, 0);
+					context.lineTo(i, context.canvas.height); 
+					context.stroke();
+				}
+
+                context.stroke();
+            }
+			
+			window.onload = function() {
+				var saveButton = document.getElementById("saveImageBtn");
+				bindButtonEvent(saveButton, "click", saveImageInfo);
+				var dlButton = document.getElementById("downloadImageBtn");
+				bindButtonEvent(dlButton, "click", saveAsLocalImage);
+				var addButton = document.getElementById("addImageBtn");
+				bindButtonEvent(addButton, "click", addImg);
+			};
+
+			function bindButtonEvent(element, type, handler) {
+				if(element.addEventListener) {
+					element.addEventListener(type, handler, false);
+				} else {
+					element.attachEvent('on' + type, handler);
+				}
+			}
+
+			function saveImageInfo() {
+				var image = canvas.toDataURL("image/jpeg");
+				var w = window.open('about:blank', 'image from canvas');
+				w.document.write("<img src='" + image + "' alt='from canvas'/>");
+			}
+
+			function saveAsLocalImage() {
+				var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+				window.location.href = image; // it will save locally  
+			}
+
+			var images = document.getElementById("images");
+
+			function addImg() {
+				/*var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+				for(var i = 0; i < imageData.data.length; i += 4) {
+					// 当该像素是透明的，则设置成白色
+					if(imageData.data[i] == 0 &imageData.data[i+1] == 0&imageData.data[i+2] == 0) {
+						imageData.data[i] = 255;
+						imageData.data[i + 1] = 255;
+						imageData.data[i + 2] = 255;
+						imageData.data[i + 3] = 255;
+					}
+				}
+				context.putImageData(imageData, 0, 0);*/
+				var imgsrc = canvas.toDataURL("image/png");
+				var newLi = document.createElement("img");
+				newLi.setAttribute("src", imgsrc);
+				images.appendChild(newLi);
+			}
+		</script>
+	</body>
+
+</html>

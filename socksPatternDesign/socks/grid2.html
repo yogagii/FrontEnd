@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id='canvas5' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<script>
+			var canvas = document.getElementById("canvas5");
+			//var context = canvas.getContext('2d');
+			var m = 0;
+			var changeturn = new Array();
+			//drawGrid(context, '#09f', 60, 60);
+			for(m = 0; m < 105; m++) {
+				var movex = 0;
+				var context = canvas.getContext('2d');
+				context.strokeStyle = 'rgba(255,0,0,1)';
+				changeturn[m] = true;
+				drawGrid(context, '#09f', 60, 60, movex, m);
+			}
+		
+
+			function drawGrid(context, color, stepx, stepy, movex, m) {
+				canvas = document.getElementById("canvas5");
+				context = canvas.getContext('2d');
+				//context.save()
+
+				context.strokeStyle = color;
+				context.lineWidth = 0.5;
+				//context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+				//context.clearRect((m % 20) * 60, Math.floor(m / 20) * 60, (m % 20 + 1) * 60, Math.floor(m / 20 + 1) * 60);
+				//m=m-1;
+/*				if(changeturn[m]) {
+					
+					if((Math.floor(m / 21)) % 2 == 0) {
+						context.clearRect((m % 21) * 60, Math.floor(m / 21) * 60+(movex--), (m % 21 + 1) * 60, Math.floor(m / 21 + 1) * 60);
+					} else {
+						context.clearRect((m % 21) * 60, Math.floor(m / 21) * 60, (m % 21 + 1) * 60, Math.floor(m / 21 + 1) * 60+(movex++));
+					}
+				} else {
+					if((Math.floor(m / 21)) % 2 == 0) {
+						context.clearRect((m % 21) * 60, Math.floor(m / 21) * 60, (m % 21 + 1) * 60, Math.floor(m / 21 + 1) * 60);
+					} else {
+						context.clearRect((m % 21) * 60, Math.floor(m / 21) * 60, (m % 21 + 1) * 60, Math.floor(m / 21 + 1) * 60);
+					}
+				}*/
+				//m=m+1;
+				/*for(var i = stepx + 0.5; i < (context.canvas.width+context.canvas.height); i += stepx) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					//context.lineTo(i, context.canvas.height);
+					context.lineTo(0, i);
+					context.stroke();
+				}
+
+				for(var i = stepy + 0.5; i < (context.canvas.width+context.canvas.height); i += stepy) {
+					context.beginPath();
+					context.moveTo(i-context.canvas.height, 0);
+					//context.lineTo(context.canvas.width, i); 
+					context.lineTo(i, context.canvas.height); 
+					context.stroke();
+				}*/
+
+				context.beginPath();
+				if(changeturn[m]) {
+					if(m % 2 == 0) {
+						if((Math.floor(m / 21)) % 2 == 0) {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movex++));
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx);
+						} else {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx);
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx + (movex++));
+						}
+
+					} else {
+						if((Math.floor(m / 21)) % 2 == 0) {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx);
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx + (movex++));
+						} else {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx + (movex++));
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx);
+						}
+					}
+					/*context.moveTo((m % 21 - 1) * stepx, Math.floor(m / 21 + 1) * stepx);
+					context.lineTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movex++)/2);
+					context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx);*/
+					if(movex >= 25) {
+						changeturn[m] = false;
+					}
+				} else {
+					if(m % 2 == 0) {
+						if((Math.floor(m / 21)) % 2 == 0) {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx + (movex--));
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx);
+						} else {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21) * stepx);
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21 + 1) * stepx + (movex--));
+						}
+
+					} else {
+						if((Math.floor(m / 21)) % 2 == 0) {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx);
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx + (movex--));
+						} else {
+							context.moveTo((m % 21) * stepx, Math.floor(m / 21 + 1) * stepx + (movex--));
+							context.lineTo((m % 21 + 1) * stepx, Math.floor(m / 21) * stepx);
+						}
+					}
+					if(movex <= 0) {
+						changeturn[m] = true;
+					}
+				}
+
+				context.stroke();
+
+				//context.restore();
+
+				window.requestAnimationFrame(function() {
+					
+					drawGrid(context, color, stepx, stepy, movex++, m)
+				});
+			}
+		</script>
+	</body>
+
+</html>

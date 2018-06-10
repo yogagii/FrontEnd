@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id='canvas5' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<script>
+			function drawRect(i, j, GRID_WIDTH, GRID_HEIGHT) {
+				var drawing = document.getElementById("canvas5");
+				if(!drawing.getContext) return false;
+				var context = drawing.getContext("2d");
+				context.lineWidth = 1;
+				context.strokeRect(i * 30, j * 30, GRID_WIDTH, GRID_HEIGHT);
+			}
+
+			var CANVAS_WIDTH = 1200; //画布的大小  
+			//var CANVAS_WIDTH = 1024; //画布的大小  
+			var CANVAS_HEIGHT = 300;
+			//var CANVAS_HEIGHT = 768;
+			var GRID_WIDTH = 30; //网格的大小  
+			var GRID_HEIGHT = 30;
+			drawGrid(CANVAS_WIDTH, CANVAS_HEIGHT, GRID_WIDTH, GRID_HEIGHT);
+
+			function drawGrid(CANVAS_WIDTH, CANVAS_HEIGHT, GRID_WIDTH, GRID_HEIGHT) {
+				var rows = parseInt(CANVAS_WIDTH / GRID_WIDTH);
+				var cols = parseInt(CANVAS_HEIGHT / GRID_HEIGHT);
+				for(var i = 0; i < rows; ++i) {
+					for(var j = 0; j < cols; ++j) {
+						drawRect(i, j, GRID_WIDTH, GRID_HEIGHT);
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>

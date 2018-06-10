@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id='canvas5' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<script>
+			var canvas = document.getElementById("canvas5");
+			//var context = canvas.getContext('2d');
+			var m = 0;
+			//drawGrid(context, '#09f', 60, 60);
+			/*for(m = 0; m < 105; m++) {
+				var movex = 0;
+				var context = canvas.getContext('2d');
+				context.strokeStyle = 'rgba(255,0,0,1)';
+				//changeturn[m] = true;
+				drawGrid(context, '#09f', 120, 120, movex, m);
+			}*/
+			var context = canvas.getContext('2d');
+			drawGrid(context, '#09f', 120, 120) ;
+			function drawGrid(context, color, stepx, stepy) {
+				//canvas = document.getElementById("canvas5");
+				//context = canvas.getContext('2d');
+				//context.save()
+				context.setLineDash([2, 15]);  
+				context.strokeStyle = color; 
+				context.lineWidth = 2;
+				//context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+				//context.clearRect((m % 20) * 60, Math.floor(m / 20) * 60, (m % 20 + 1) * 60, Math.floor(m / 20 + 1) * 60);
+
+				for(var i = stepx + 0.5; i < (context.canvas.width+context.canvas.height); i += stepx) {
+					context.beginPath();
+					context.moveTo(i, 0);
+					context.lineTo(0, i);
+					context.stroke();
+				}
+
+				for(var i = stepy + 0.5; i < (context.canvas.width+context.canvas.height); i += stepy) {
+					context.beginPath();
+					context.moveTo(i-context.canvas.height, 0);
+					context.lineTo(i, context.canvas.height); 
+					context.stroke();
+				}
+
+				
+	
+				context.stroke();
+
+			}
+		</script>
+	</body>
+
+</html>

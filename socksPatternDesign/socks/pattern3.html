@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			.nav {
+				width: 1200px;
+				height: 38px;
+				background-color: black;
+				font-family: "微软雅黑";
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+			}
+			
+			.nav ul {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			.nav ul li {
+				display: inline-block;
+				line-height: 38px;
+				padding: 0px 15px;
+				width: 70px;
+				position: relative;
+			}
+			
+			.nav ul li a {
+				color: white;
+				text-decoration: none;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<p style="text-align: center; font-size: 40px;">Socks Pattern Design</p>
+		<div class="nav">
+			<ul style="margin-left: auto;margin-right: auto;">
+				<center>
+					<li>
+						<a href="index.html">Pattern1</a>
+					</li>
+					<li>
+						<a href="pattern2.html">Pattern2</a>
+					</li>
+					<li>
+						<a href="pattern3.html">Pattern3</a>
+					</li>
+					<li>
+						<a href="pattern4.html">Pattern4</a>
+					</li>
+					<li>
+						<a href="grid3.html">Pattern5</a>
+					</li>
+				</center>
+			</ul>
+		</div>
+		<canvas id='canvas3' width=1200 height=300 style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<center><button id="saveImageBtn" style="margin-top:20px;">Save Image</button>
+			<button id="downloadImageBtn">Download Image</button>
+			<button id="addImageBtn">Preview Image</button></center>
+		<ol id="images" style="margin-left: 100px;">
+		</ol>
+		<!--	<script src="https://a-jie.github.io/Proton/example/lib/ststs.min.js"></script>
+		<script src="https://a-jie.github.io/Proton/build/proton.min.js"></script>-->
+		<script src="Proton-master/example/lib/stats.min.js"></script>
+		<script src="Proton-master/build/proton.min.js"></script>
+
+		<script>
+			var canvas;
+			var context;
+			var proton;
+			var renderer;
+			var emitter;
+			var stats;
+			var colors;
+
+			main();
+
+			function main() {
+				colors = ['#529B88', '#CDD180', '#FFFA32', '#FB6255', '#FB4A53', '#FF4E50', '#F9D423'];
+				canvas = document.getElementById("canvas3");
+				//canvas.width = window.innerWidth;
+				//canvas.height = window.innerHeight;
+				context = canvas.getContext('2d');
+				context.globalCompositeOperation = "darker";
+				addStats();
+
+				createProton();
+				tick();
+			}
+
+			function addStats() {
+				stats = new Stats();
+				stats.setMode(2);
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.left = '0px';
+				stats.domElement.style.top = '0px';
+				//document.getElementById('container').appendChild(stats.domElement);
+			}
+
+			function createProton() {
+				proton = new Proton;
+				emitter = new Proton.Emitter();
+				emitter.rate = new Proton.Rate(new Proton.Span(5, 8), new Proton.Span(.05, .2));
+
+				emitter.addInitialize(new Proton.Mass(1));
+				emitter.addInitialize(new Proton.Radius(20, 100));
+				emitter.addInitialize(new Proton.Life(2, 4));
+				emitter.addInitialize(new Proton.Position(new Proton.RectZone(0, 0, canvas.width, canvas.height)));
+
+				emitter.addBehaviour(new Proton.Alpha(0, 1, Infinity, Proton.easeOutCubic));
+				emitter.addBehaviour(new Proton.Scale(1, 0, Infinity, Proton.easeOutCubic));
+				emitter.addBehaviour(new Proton.Color(colors, 'random'));
+
+				emitter.emit();
+				proton.addEmitter(emitter);
+
+				renderer = new Proton.CanvasRenderer(canvas);
+				proton.addRenderer(renderer);
+
+				emitter.preEmit(0.5);
+			}
+
+			function tick() {
+				requestAnimationFrame(tick);
+
+				stats.begin();
+				proton.update();
+				proton.stats.update(1);
+				stats.end();
+			}
+
+			window.onload = function() {
+				var saveButton = document.getElementById("saveImageBtn");
+				bindButtonEvent(saveButton, "click", saveImageInfo);
+				var dlButton = document.getElementById("downloadImageBtn");
+				bindButtonEvent(dlButton, "click", saveAsLocalImage);
+				var addButton = document.getElementById("addImageBtn");
+				bindButtonEvent(addButton, "click", addImg);
+			};
+
+			function bindButtonEvent(element, type, handler) {
+				if(element.addEventListener) {
+					element.addEventListener(type, handler, false);
+				} else {
+					element.attachEvent('on' + type, handler);
+				}
+			}
+
+			function saveImageInfo() {
+
+				var image = canvas.toDataURL("image/jpeg");
+				var w = window.open('about:blank', 'image from canvas');
+				w.document.write("<img src='" + image + "' alt='from canvas'/>");
+			}
+
+			function saveAsLocalImage() {
+				var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+				window.location.href = image; // it will save locally  
+			}
+
+			var images = document.getElementById("images");
+
+			function addImg() {
+				var imgsrc = canvas.toDataURL("image/png");
+				var newLi = document.createElement("img");
+				newLi.setAttribute("src", imgsrc);
+				images.appendChild(newLi);
+			}
+		</script>
+	</body>
+
+</html>

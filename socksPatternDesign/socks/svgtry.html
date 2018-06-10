@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+				<p style="text-align: center; font-size: 40px;">Socks Pattern Design</p>
+
+		<svg id="svg1" width="20%" height="600px" style="border: solid; border-color: gray; margin:0px 2% 0px 3%; background-color:black;">
+			<circle class="cc" cx="100" cy="50" r="20" stroke="white" stroke-width="2" />
+			<circle cx="100" cy="100" r="20" stroke="white" stroke-width="2" />
+
+		</svg>
+
+		<svg width="20%" height="600px" style="border: solid; border-color: gray; margin:0px 2% 0px 2%;">
+
+		</svg>
+
+		<svg width="20%" height="600px" style="border: solid; border-color: gray; margin:0px 2% 0px 2%;">
+
+		</svg>
+
+		<svg width="20%" height="600px" style="border: solid; border-color: gray; margin:0px 2% 0px 2%;">
+
+		</svg>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>  
+		<script>
+			$(document).ready(function() {
+				var circles = document.getElementById("svg1");
+				// 圆心位置  
+				var centerX = 0;
+				var centerY = 0;
+				$circle = $('<circle r="20" stroke="red" stroke-width="2" />');  
+				//circles.append($circle);
+				var radius = 10;
+				$circle.css("left", centerX - radius + "px");
+				$circle.css("top", centerY - radius + "px");
+				$circle.css("width", 2 * radius + "px");
+				$circle.css("height", 2 * radius + "px");
+				$circle.css("border-radius", radius + "px");
+
+			});
+		</script>
+	</body>
+</html>

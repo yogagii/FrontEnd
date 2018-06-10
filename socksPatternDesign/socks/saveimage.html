@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body bgcolor="#E6E6FA">
+		<div>
+			<canvas width=200 height=200 id="thecanvas"></canvas>
+			<button id="saveImageBtn">Save Image</button>
+			<button id="downloadImageBtn">Download Image</button>
+			<button id="addImageBtn">Preview Image</button>
+			<ol id="images">
+				<img src="img/1234.jpeg"></img>
+				<li>《汉语字典》</li>
+				<li>《英语字典》</li>
+			</ol>
+		</div>
+		<script>
+			window.onload = function() {
+				draw();
+				var saveButton = document.getElementById("saveImageBtn");
+				bindButtonEvent(saveButton, "click", saveImageInfo);
+				var dlButton = document.getElementById("downloadImageBtn");
+				bindButtonEvent(dlButton, "click", saveAsLocalImage);
+				var addButton = document.getElementById("addImageBtn");
+				bindButtonEvent(addButton, "click", addImg);
+			};
+
+			function draw() {
+				var canvas = document.getElementById("thecanvas");
+				var ctx = canvas.getContext("2d");
+				ctx.fillStyle = "rgba(125, 46, 138, 0.5)";
+				ctx.fillRect(25, 25, 100, 100);
+				ctx.fillStyle = "rgba( 0, 146, 38, 0.5)";
+				ctx.fillRect(58, 74, 125, 100);
+				ctx.fillStyle = "rgba( 0, 0, 0, 1)"; // black color  
+				ctx.fillText("Gloomyfish - Demo", 50, 50);
+			}
+
+			function bindButtonEvent(element, type, handler) {
+				if(element.addEventListener) {
+					element.addEventListener(type, handler, false);
+				} else {
+					element.attachEvent('on' + type, handler);
+				}
+			}
+
+			function saveImageInfo() {
+				var mycanvas = document.getElementById("thecanvas");
+				var image = mycanvas.toDataURL("image/png");
+				var w = window.open('about:blank', 'image from canvas');
+				w.document.write("<img src='" + image + "' alt='from canvas'/>");
+			}
+
+			function saveAsLocalImage() {
+				var myCanvas = document.getElementById("thecanvas");
+				// here is the most important part because if you dont replace you will get a DOM 18 exception.  
+				// var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=foobar.png");  
+				var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+				window.location.href = image; // it will save locally  
+			}
+			
+			var images = document.getElementById("images");
+			//var imgsrc = "img/1234.jpeg";
+			function addImg(){
+/*				var bookName = document.getElementById("bookName").value;
+				if(bookName==""){
+					alert("书名不能为空");
+					return;
+				}*/
+				var mycanvas = document.getElementById("thecanvas");
+				var image = mycanvas.toDataURL("image/jpeg");
+				//var imgsrc = '" + image + "' alt='from canvas';
+				//var imgsrc = "' + image + '" alt="from canvas";
+				var imgsrc = mycanvas.toDataURL("image/jpeg");
+				var newLi = document.createElement("img");
+				newLi.setAttribute("src",imgsrc);
+				//newLi.innerText="《"+bookName+"》";
+				images.appendChild(newLi);
+				//document.getElementById("bookName").value="";
+			}
+		</script>
+	</body>
+
+</html>

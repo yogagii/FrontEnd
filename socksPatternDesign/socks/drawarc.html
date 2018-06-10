@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<p style="text-align: center; font-size: 40px;">Socks Pattern Design</p>
+		<canvas id="myCanvas" width="1200" height="300" style="border:1px solid #333; align-self: center; margin-left: auto;margin-right: auto; display: block;"></canvas>
+		<button onclick="actiondo()">圆</button>
+		<script>
+			var canvas = document.getElementById('myCanvas'),
+				width = canvas.width,
+				height = canvas.height,
+				ctx = canvas.getContext('2d');
+			var step, startAngle, endAngle, add = Math.PI * 2 / 100;
+			ctx.shadowOffsetX = 0; // 设置水平位移
+			ctx.shadowOffsetY = 0; // 设置垂直位移
+			ctx.shadowBlur = 10; // 设置模糊度
+			ctx.lineWidth = 1.0;
+			counterClockwise = false;
+			var x = new Array();
+			var y = new Array();
+			var radius;
+			var animation_interval = 20,
+				n = 100;
+			var varName;
+			var timesRun = 0;
+			var randomx;
+			var randomy;
+
+			//change(ctx, radius);
+
+			function actiondo() {
+				var oCanvas = document.getElementById("thecanvas");
+				//Canvas2Image.saveAsPNG(oCanvas); 
+			}
+
+			var drawInterval = setInterval(function() { //匿名函数
+				step = 1;
+				startAngle = 0;
+				ctx.strokeStyle = '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6); //圆圈颜色                
+				ctx.shadowColor = '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6); // 设置阴影颜色
+				//圆心位置
+				randomx = Math.random();
+				randomy = Math.random();
+				for(var i = 0; i < 10; i++) {
+					x[i] = Math.floor(randomx * 100 + 100 * i);
+					y[i] = Math.floor(randomy * 30);
+
+				}
+
+				radius = Math.floor(Math.random() * 10 + 10);
+				timesRun += 1;
+				if(timesRun === 10) {
+					clearInterval(drawInterval);
+				}
+				//varName = setInterval(animation, animation_interval);
+				ctx.beginPath();
+				for(var i = 0; i < 10; i++) {
+					ctx.arc(x[i], y[i], radius, 0, Math.PI * 2, counterClockwise);
+				}
+				//ctx.arc(x[0], y[0], radius, 0, Math.PI*2, counterClockwise);
+				ctx.lineWidth = 1.0;
+				ctx.stroke();
+			}, 1000);
+
+			//}
+			//}
+			var animation = function() {
+				if(step <= n) {
+					endAngle = startAngle + add;
+					drawArc(startAngle, endAngle);
+					startAngle = endAngle;
+					step++;
+				} else {
+					clearInterval(varName);
+				}
+
+			};
+
+			function drawArc(s, e) {
+				ctx.beginPath();
+				ctx.arc(x, y, radius, s, e, counterClockwise);
+				ctx.lineWidth = 1.0;
+				ctx.stroke();
+
+			}
+
+			function change(context, r) {
+				ctx.clearRect(0, 0, 200, 200);
+				ctx.beginPath();
+				ctx.arc(100, 100, r++, 0, 2 * Math.PI);
+				ctx.closePath();
+				ctx.stroke();
+				if(r >= 100) {
+					r = 20;
+				}
+				window.requestAnimationFrame(function() {
+					change(ctx, radius++)
+				});
+			}
+		</script>
+	</body>
+</html>
