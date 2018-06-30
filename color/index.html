@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.color-card {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="example-7">
+			<input v-model="colorQuery" v-on:keyup.enter="updateColor" placeholder="Enter a color">
+			<button v-on:click="updateColor">Update</button>
+			<p>Preview:</p>
+			<div>
+				<span v-bind:style="{ backgroundColor: tweenedCSSColor }" class="color-card"></span>
+				<span v-bind:style="{ backgroundColor: tweenedCSSColor }" class="color-card"></span>
+				<span v-bind:style="{ backgroundColor: tweenedCSSColor }" class="color-card"></span>
+				<span v-bind:style="{ backgroundColor: tweenedCSSColor }" class="color-card"></span>
+				<p>{{ tweenedCSSColor }}</p>
+			</div>
+			<div>
+				<div v-for="color in colors" >
+					<span v-bind:style="{ backgroundColor: color.color[0] }" class="color-card"></span>
+					<span v-bind:style="{ backgroundColor: color.color[1] }" class="color-card"></span>
+					<span v-bind:style="{ backgroundColor: color.color[2] }" class="color-card"></span>
+					<span v-bind:style="{ backgroundColor: color.color[3] }" class="color-card"></span>
+					<!--<input type="checkbox" id="jack" value="Jack" v-model="checkedNames" style="width: 20px; height: 20px;">-->
+					<p>{{ color.color[0]+" - "+color.color[1]+" - "+color.color[2]+" - "+color.color[3] }}</p>
+				</div>
+			</div>
+<!--			<template name="ServicesTemplate">
+				<view class="indi">
+					<text class="services-name"> {{item.name}} </text>
+					<view class="view-style" wx:for="{{item.images}}" wx:for-item="image">
+						<image class="services-logo" src="{{image.src}}" mode="aspectFit"></image>
+					</view>
+				</view>
+			</template>-->
+		</div>
+		<script src="https://unpkg.com/vue"></script>
+		<script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+		<script src="https://cdn.jsdelivr.net/npm/color-js@1.0.3"></script>
+		<script>
+			var Color = net.brehaut.Color;
+			var randomColor = new Array()
+			//var randomColor = (Math.round(Math.random()*(Math.pow(2,24)))).toString(16);
+			for(i = 0;i<16;i++)
+			{
+				randomColor[i] =  (Math.round(Math.random()*(Math.pow(2,24)))).toString(16);
+				//if(randomColor[i].length==5){randomColor[i]='0'*2+(randomColor[i]).toString()}
+				var templength = randomColor[i].length;
+				for(j=0;j<(6-templength);j++)
+				{
+					randomColor[i]='0'+(randomColor[i]).toString();
+				}
+				console.log(randomColor[i]);
+			}
+
+			new Vue({
+				el: '#example-7',
+				data: {
+					colorQuery: '',
+					color: {
+						red: 0,
+						green: 0,
+						blue: 0,
+						alpha: 1
+					},
+					colors: [
+                    { color:['#'+randomColor[0],'#'+randomColor[1],'#'+randomColor[2],'#'+randomColor[3]] },
+                    { color:['#'+randomColor[4],'#'+randomColor[5],'#'+randomColor[6],'#'+randomColor[7]] },
+                    { color:['#'+randomColor[8],'#'+randomColor[9],'#'+randomColor[10],'#'+randomColor[11]] },
+                    { color:['#'+randomColor[12],'#'+randomColor[13],'#'+randomColor[14],'#'+randomColor[15]] }
+                	],
+					tweenedColor: {}
+				},
+				created: function() {
+					this.tweenedColor = Object.assign({}, this.color)
+				},
+				watch: {
+					color: function() {
+						function animate() {
+							if(TWEEN.update()) {
+								requestAnimationFrame(animate)
+							}
+						}
+
+						new TWEEN.Tween(this.tweenedColor)
+							.to(this.color, 750)
+							.start()
+
+						animate()
+					}
+				},
+				computed: {
+					tweenedCSSColor: function() {
+						return new Color({
+							red: this.tweenedColor.red,
+							green: this.tweenedColor.green,
+							blue: this.tweenedColor.blue,
+							alpha: this.tweenedColor.alpha
+						}).toCSS()
+					}
+				},
+				methods: {
+					updateColor: function() {
+						this.color = new Color(this.colorQuery).toRGB()
+						this.colorQuery = ''
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
